@@ -1,6 +1,10 @@
-import { useState, useEffect } from 'react';
+// TODO: upgrade to use @apollo/client
+
+import { useState } from 'react';
 import { ApolloClient, HttpLink, InMemoryCache } from 'apollo-boost'
 import gql from 'graphql-tag';
+
+import CreateLink from './mutation/CreateLink';
 
 const endPointUrl = 'http://localhost:9000/graphql'
 const client = new ApolloClient({
@@ -8,18 +12,19 @@ const client = new ApolloClient({
   cache: new InMemoryCache()
 });
 
+// apollo client
 const loadStudentsAsync = async () => {
   const query = gql`
   {
-     students{
+     students {
         id
         firstName
         lastName
-        college{
+        college {
            name
         }
      }
-  }`
+  }`;
   const { data } = await client.query({ query });
   return data.students;
 }
@@ -141,6 +146,7 @@ function App() {
           </table>
         </div>
       </div>
+      <CreateLink />
     </div>
   );
 }
